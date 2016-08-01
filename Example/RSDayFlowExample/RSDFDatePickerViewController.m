@@ -163,25 +163,28 @@
 - (RSDFDatePickerView *)datePickerView
 {
 	if (!_datePickerView) {
-		_datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar];
+		NSDate *endDate = [self.calendar dateByAddingUnit:NSCalendarUnitMonth value:12 toDate:[NSDate date] options:0];
+		endDate = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:-1 toDate:endDate options:0];
+		_datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar startDate:[NSDate date] endDate:endDate];
         _datePickerView.delegate = self;
         _datePickerView.dataSource = self;
+		_datePickerView.selectionMode = RSDFSelectionModeRange;
 		_datePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	}
 	return _datePickerView;
 }
 
-- (RSDFCustomDatePickerView *)customDatePickerView
-{
-    if (!_customDatePickerView) {
-        _customDatePickerView = [[RSDFCustomDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar];
-        _customDatePickerView.delegate = self;
-        _customDatePickerView.dataSource = self;
-		_customDatePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _customDatePickerView.pagingEnabled = YES;
-    }
-    return _customDatePickerView;
-}
+//- (RSDFCustomDatePickerView *)customDatePickerView
+//{
+//    if (!_customDatePickerView) {
+//        _customDatePickerView = [[RSDFCustomDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar];
+//        _customDatePickerView.delegate = self;
+//        _customDatePickerView.dataSource = self;
+//		_customDatePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//        _customDatePickerView.pagingEnabled = YES;
+//    }
+//    return _customDatePickerView;
+//}
 
 #pragma mark - Action handling
 

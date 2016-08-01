@@ -226,37 +226,37 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
             self.dateLabel.textColor = [self outOfRangeDayLabelTextColor];
             self.dateLabel.font = [self outOfRangeDayLabelFont];
         } else {
-            if (!self.isSelected) {
-                if (!self.isToday) {
-                    self.dateLabel.font = [self dayLabelFont];
-                    if (!self.dayOff) {
-                        if (self.isPastDate) {
-                            self.dateLabel.textColor = [self pastDayLabelTextColor];
-                        } else {
-                            self.dateLabel.textColor = [self dayLabelTextColor];
-                        }
-                    } else {
-                        if (self.isPastDate) {
-                            self.dateLabel.textColor = [self pastDayOffLabelTextColor];
-                        } else {
-                            self.dateLabel.textColor = [self dayOffLabelTextColor];
-                        }
-                    }
-                } else {
-                    self.dateLabel.font = [self todayLabelFont];
-                    self.dateLabel.textColor = [self todayLabelTextColor];
-                }
-                
+            if (self.isSelected) {
+				if (self.isToday) {
+					self.dateLabel.font = [self selectedTodayLabelFont];
+					self.dateLabel.textColor = [self selectedTodayLabelTextColor];
+					self.selectedDayImageView.image = [self selectedTodayImage];
+				} else {
+					self.dateLabel.font = [self selectedDayLabelFont];
+					self.dateLabel.textColor = [self selectedDayLabelTextColor];
+					self.selectedDayImageView.image = [self selectedDayImage];
+				}
             } else {
-                if (!self.isToday) {
-                    self.dateLabel.font = [self selectedDayLabelFont];
-                    self.dateLabel.textColor = [self selectedDayLabelTextColor];
-                    self.selectedDayImageView.image = [self selectedDayImage];
-                } else {
-                    self.dateLabel.font = [self selectedTodayLabelFont];
-                    self.dateLabel.textColor = [self selectedTodayLabelTextColor];
-                    self.selectedDayImageView.image = [self selectedTodayImage];
-                }
+				if (self.isToday) {
+					self.dateLabel.font = [self todayLabelFont];
+					self.dateLabel.textColor = [self todayLabelTextColor];
+					self.selectedDayImageView.image = [self selectedTodayImage];
+				} else {
+					self.dateLabel.font = [self dayLabelFont];
+					if (self.dayOff) {
+						if (self.isPastDate) {
+							self.dateLabel.textColor = [self pastDayOffLabelTextColor];
+						} else {
+							self.dateLabel.textColor = [self dayOffLabelTextColor];
+						}
+					} else {
+						if (self.isPastDate) {
+							self.dateLabel.textColor = [self pastDayLabelTextColor];
+						} else {
+							self.dateLabel.textColor = [self dayLabelTextColor];
+						}
+					}
+				}
             }
             
             if (self.marked) {
