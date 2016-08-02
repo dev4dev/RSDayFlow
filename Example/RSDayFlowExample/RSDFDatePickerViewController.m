@@ -69,7 +69,7 @@
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
     
 //	NSDate *endDate = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:9 toDate:[NSDate date] options:0];
-//	[self.datePickerView selectDateRange:[NSDate date] lastDate:endDate];
+	[self.datePickerView selectDateRange:[NSDate date] lastDate:nil];
 
     self.customDatePickerView.hidden = YES;
     

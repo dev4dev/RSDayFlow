@@ -367,12 +367,12 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)selectDateRange:(NSDate * __nullable)firstDate lastDate:(NSDate * __nullable)lastDate
 {
-	if (!firstDate || !lastDate) {
-		return;
+	if (firstDate) {
+		[self selectDateInDateRange:firstDate];
 	}
-
-	[self selectDateInDateRange:firstDate];
-	[self selectDateInDateRange:lastDate];
+	if (lastDate) {
+		[self selectDateInDateRange:lastDate];
+	}
 }
 
 - (void)commonInitializer
