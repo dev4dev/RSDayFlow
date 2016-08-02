@@ -36,8 +36,6 @@
 @property (copy, nonatomic) NSArray *lastSymbolsUsed;
 @property (assign, nonatomic) NSUInteger daysInWeek;
 @property (assign, nonatomic) NSUInteger originalIndexOfFirstWeekdaySymbol;
-@property (assign, nonatomic) NSUInteger originalIndexOfSaturdaySymbol;
-@property (assign, nonatomic) NSUInteger originalIndexOfSundaySymbol;
 
 @end
 
@@ -100,8 +98,6 @@
     
     self.daysInWeek = self.calendar.rsdf_daysInWeek;
     self.originalIndexOfFirstWeekdaySymbol = self.calendar.firstWeekday - 1;
-    self.originalIndexOfSaturdaySymbol = self.calendar.rsdf_saturdayIndex - 1;
-    self.originalIndexOfSundaySymbol = self.calendar.rsdf_sundayIndex - 1;
     
     NSString *dateFormatterName = [NSString stringWithFormat:@"calendarDaysOfWeekView_%@_%@", [self.calendar calendarIdentifier], [[self.calendar locale] localeIdentifier]];
     NSDateFormatter *dateFormatter = [self.calendar df_dateFormatterNamed:dateFormatterName withConstructor:^{
@@ -246,7 +242,7 @@
                 weekdayLabel.textAlignment = NSTextAlignmentCenter;
                 weekdayLabel.backgroundColor = dayOfWeekLabelBackgroundColor;
                 NSUInteger originalIndexOfWeekdaySymbol = [self originalIndexOfWeekdaySymbolFromReorderedIndex:[symbolsToUse indexOfObjectIdenticalTo:weekdaySymbol]];
-                if (originalIndexOfWeekdaySymbol != self.originalIndexOfSaturdaySymbol && originalIndexOfWeekdaySymbol != self.originalIndexOfSundaySymbol) {
+                if (originalIndexOfWeekdaySymbol != 6 && originalIndexOfWeekdaySymbol != 0) {
                     weekdayLabel.font = dayOfWeekLabelFont;
                     weekdayLabel.textColor = dayOfWeekLabelTextColor;
                 } else {

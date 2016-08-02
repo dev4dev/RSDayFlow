@@ -126,6 +126,18 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
 
 - (void)selectDate:(nullable NSDate *)date;
 
+/**
+ Selects dates in range.
+
+ If there is an existing selection of a different date, calling this method replaces the previous selection.
+
+ This method does not cause any selection-related delegate methods to be called.
+
+ @param firstDate The start range date to select.
+ @param lastDate The end range date to select.
+ */
+- (void)selectDateRange:(NSDate * __nullable)firstDate lastDate:(NSDate * __nullable)lastDate;
+
 ///-------------------------
 /// @name Reloading the Data
 ///-------------------------

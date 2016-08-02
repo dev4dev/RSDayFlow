@@ -37,7 +37,6 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 @property (nonatomic, readonly, strong) UIImageView *selectedDayImageView;
 @property (nonatomic, readonly, strong) UIImageView *overlayImageView;
 @property (nonatomic, readonly, strong) UIImageView *markImageView;
-@property (nonatomic, readonly, strong) UIImageView *dividerImageView;
 
 @end
 
@@ -49,7 +48,6 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 @synthesize markImage = _markImage;
 @synthesize markImageColor = _markImageColor;
 @synthesize markImageView = _markImageView;
-@synthesize dividerImageView = _dividerImageView;
 
 #pragma mark - Lifecycle
 
@@ -78,7 +76,6 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
     [self addSubview:self.selectedDayImageView];
     [self addSubview:self.overlayImageView];
     [self addSubview:self.markImageView];
-    [self addSubview:self.dividerImageView];
     [self addSubview:self.dateLabel];
     
     [self updateSubviews];
@@ -92,8 +89,6 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
     self.selectedDayImageView.frame = [self selectedImageViewFrame];
     self.overlayImageView.frame = [self selectedImageViewFrame];
     self.markImageView.frame = [self markImageViewFrame];
-    self.dividerImageView.frame = [self dividerImageViewFrame];
-    self.dividerImageView.image = [self dividerImage];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -111,21 +106,6 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
         _dateLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _dateLabel;
-}
-
-- (UIImageView *)dividerImageView
-{
-    if (!_dividerImageView) {
-        _dividerImageView = [[UIImageView alloc] initWithFrame:[self dividerImageViewFrame]];
-        _dividerImageView.contentMode = UIViewContentModeCenter;
-        _dividerImageView.image = [self dividerImage];
-    }
-    return _dividerImageView;
-}
-
-- (CGRect)dividerImageViewFrame
-{
-    return CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.frame) + 3.0f, roundOnBase(0.5f, [UIScreen mainScreen].scale));
 }
 
 - (CGRect)markImageViewFrame
@@ -187,7 +167,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 
 - (CGRect)selectedImageViewFrame
 {
-    return CGRectMake(roundOnBase(CGRectGetWidth(self.frame) / 2 - 17.5f, [UIScreen mainScreen].scale), roundOnBase(5.5, [UIScreen mainScreen].scale), 35.0f, 35.0f);
+	return self.bounds;
 }
 
 - (void)setMarkImage:(UIImage *)markImage
@@ -213,10 +193,12 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 
 - (void)updateSubviews
 {
+	self.layer.borderWidth = 0.0;
+	self.layer.borderColor = [UIColor colorWithRed:239/255.0 green:239/255.0 blue:244/255.0 alpha:1].CGColor;
+
     self.selectedDayImageView.hidden = !self.isSelected || self.isNotThisMonth || self.isOutOfRange;
     self.overlayImageView.hidden = !self.isHighlighted || self.isNotThisMonth || self.isOutOfRange;
     self.markImageView.hidden = !self.isMarked || self.isNotThisMonth || self.isOutOfRange;
-    self.dividerImageView.hidden = self.isNotThisMonth;
 
     if (self.isNotThisMonth) {
         self.dateLabel.textColor = [self notThisMonthLabelTextColor];
@@ -228,6 +210,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
         } else {
             if (self.isSelected) {
 				if (self.isToday) {
+					self.layer.borderWidth = 1.0;
 					self.dateLabel.font = [self selectedTodayLabelFont];
 					self.dateLabel.textColor = [self selectedTodayLabelTextColor];
 					self.selectedDayImageView.image = [self selectedTodayImage];
@@ -238,6 +221,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 				}
             } else {
 				if (self.isToday) {
+					self.layer.borderWidth = 1.0;
 					self.dateLabel.font = [self todayLabelFont];
 					self.dateLabel.textColor = [self todayLabelTextColor];
 					self.selectedDayImageView.image = [self selectedTodayImage];
@@ -411,7 +395,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
     if (!selectedTodayImage) {
         UIColor *selectedTodayImageColor = [self selectedTodayImageColor];
         NSString *selectedTodayImageKey = [NSString stringWithFormat:@"img_selected_today_%@", [selectedTodayImageColor description]];
-        selectedTodayImage = [self ellipseImageWithKey:selectedTodayImageKey frame:self.selectedDayImageView.frame color:selectedTodayImageColor];
+        selectedTodayImage = [self rectImageWithKey:selectedTodayImageKey frame:self.selectedDayImageView.frame color:selectedTodayImageColor];
     }
     return selectedTodayImage;
 }
@@ -428,7 +412,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 
 - (UIColor *)selectedDayImageColor
 {
-    return [UIColor colorWithRed:255/255.0f green:59/255.0f blue:48/255.0f alpha:1.0f];
+	return [UIColor colorWithRed:50/255.0 green:186/255.0 blue:85/255.0 alpha:1];
 }
 
 - (UIImage *)customSelectedDayImage
@@ -442,7 +426,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
     if (!selectedDayImage) {
         UIColor *selectedDayImageColor = [self selectedDayImageColor];
         NSString *selectedDayImageKey = [NSString stringWithFormat:@"img_selected_day_%@", [selectedDayImageColor description]];
-        selectedDayImage = [self ellipseImageWithKey:selectedDayImageKey frame:self.selectedDayImageView.frame color:selectedDayImageColor];
+        selectedDayImage = [self rectImageWithKey:selectedDayImageKey frame:self.selectedDayImageView.frame color:selectedDayImageColor];
     }
     return selectedDayImage;
 }
@@ -463,30 +447,9 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
     if (!overlayImage) {
         UIColor *overlayImageColor = [self overlayImageColor];
         NSString *overlayImageKey = [NSString stringWithFormat:@"img_overlay_%@", [overlayImageColor description]];
-        overlayImage = [self ellipseImageWithKey:overlayImageKey frame:self.overlayImageView.frame color:overlayImageColor];
+        overlayImage = [self rectImageWithKey:overlayImageKey frame:self.overlayImageView.frame color:overlayImageColor];
     }
     return overlayImage;
-}
-
-- (UIColor *)dividerImageColor
-{
-    return [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0f];
-}
-
-- (UIImage *)customDividerImage
-{
-    return nil;
-}
-
-- (UIImage *)dividerImage
-{
-    UIImage *dividerImage = [self customDividerImage];
-    if (!dividerImage) {
-        UIColor *dividerImageColor = [self dividerImageColor];
-        NSString *dividerImageKey = [NSString stringWithFormat:@"img_divider_%@_%g", [dividerImageColor description], CGRectGetWidth(self.dividerImageView.frame)];
-        dividerImage = [self rectImageWithKey:dividerImageKey frame:self.dividerImageView.frame color:dividerImageColor];
-    }
-    return dividerImage;
 }
 
 @end

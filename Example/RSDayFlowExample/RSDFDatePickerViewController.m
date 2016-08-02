@@ -68,10 +68,9 @@
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
     
-    NSDateComponents *todayComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
-    NSDate *today = [self.calendar dateFromComponents:todayComponents];
-    [self.datePickerView selectDate:today];
-    
+	NSDate *endDate = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:9 toDate:[NSDate date] options:0];
+	[self.datePickerView selectDateRange:[NSDate date] lastDate:endDate];
+
     self.customDatePickerView.hidden = YES;
     
     [self.view addSubview:self.customDatePickerView];
@@ -165,7 +164,12 @@
 	if (!_datePickerView) {
 		NSDate *endDate = [self.calendar dateByAddingUnit:NSCalendarUnitMonth value:12 toDate:[NSDate date] options:0];
 		endDate = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:-1 toDate:endDate options:0];
-		_datePickerView = [[RSDFDatePickerView alloc] initWithFrame:self.view.bounds calendar:self.calendar startDate:[NSDate date] endDate:endDate];
+		_datePickerView = [[RSDFDatePickerView alloc] initWithFrame:CGRectInset(self.view.bounds, 20, 0) calendar:self.calendar startDate:[NSDate date] endDate:endDate];
+		_datePickerView.frame = ({
+			CGRect frame = _datePickerView.frame;
+			frame.size.width = (ceilf(frame.size.width / 7.0) * 7.0);
+			frame;
+		});
         _datePickerView.delegate = self;
         _datePickerView.dataSource = self;
 		_datePickerView.selectionMode = RSDFSelectionModeRange;
@@ -219,44 +223,44 @@
 
 #pragma mark - RSDFDatePickerViewDataSource
 
-- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldHighlightDate:(NSDate *)date
-{
-    if (view == self.datePickerView) {
-        return YES;
-    }
-    
-    if ([self.today compare:date] == NSOrderedDescending) {
-        return NO;
-    }
-    
-    return YES;
-}
-
-- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldSelectDate:(NSDate *)date
-{
-    if (view == self.datePickerView) {
-        return YES;
-    }
-    
-    if ([self.today compare:date] == NSOrderedDescending) {
-        return NO;
-    }
-    
-    return YES;
-}
-
-- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date
-{
-    return [self.datesToMark containsObject:date];
-}
-
-- (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date
-{
-    if (![self.statesOfTasks[date] boolValue]) {
-        return self.uncompletedTasksColor;
-    } else {
-        return self.completedTasksColor;
-    }
-}
+//- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldHighlightDate:(NSDate *)date
+//{
+//    if (view == self.datePickerView) {
+//        return YES;
+//    }
+//    
+//    if ([self.today compare:date] == NSOrderedDescending) {
+//        return NO;
+//    }
+//    
+//    return YES;
+//}
+//
+//- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldSelectDate:(NSDate *)date
+//{
+//    if (view == self.datePickerView) {
+//        return YES;
+//    }
+//    
+//    if ([self.today compare:date] == NSOrderedDescending) {
+//        return NO;
+//    }
+//    
+//    return YES;
+//}
+//
+//- (BOOL)datePickerView:(RSDFDatePickerView *)view shouldMarkDate:(NSDate *)date
+//{
+//    return [self.datesToMark containsObject:date];
+//}
+//
+//- (UIColor *)datePickerView:(RSDFDatePickerView *)view markImageColorForDate:(NSDate *)date
+//{
+//    if (![self.statesOfTasks[date] boolValue]) {
+//        return self.uncompletedTasksColor;
+//    } else {
+//        return self.completedTasksColor;
+//    }
+//}
 
 @end

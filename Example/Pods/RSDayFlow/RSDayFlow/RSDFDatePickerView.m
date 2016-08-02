@@ -36,7 +36,7 @@
 static NSString * const RSDFDatePickerViewMonthHeaderIdentifier = @"RSDFDatePickerViewMonthHeaderIdentifier";
 static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerViewDayCellIdentifier";
 
-@interface RSDFDatePickerView () <RSDFDatePickerCollectionViewDelegate>
+@interface RSDFDatePickerView () <UICollectionViewDelegate>
 
 @property (nonatomic, readonly, strong) NSCalendar *calendar;
 @property (nonatomic, readonly, strong) RSDFDatePickerDaysOfWeekView *daysOfWeekView;
@@ -365,6 +365,16 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     }
 }
 
+- (void)selectDateRange:(NSDate * __nullable)firstDate lastDate:(NSDate * __nullable)lastDate
+{
+	if (!firstDate || !lastDate) {
+		return;
+	}
+
+	[self selectDateInDateRange:firstDate];
+	[self selectDateInDateRange:lastDate];
+}
+
 - (void)commonInitializer
 {
     NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth) fromDate:[NSDate date]];
@@ -663,20 +673,12 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 	NSDate *date = cell ? [self dateFromPickerDate:cell.date] : nil;
 
 	if (self.selectionMode == RSDFSelectionModeSingle) {
-		NSDate *date = [self dateForCellAtIndexPath:indexPath];
 		[self selectDate:date];
 
 		if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
 			[self.delegate datePickerView:self didSelectDate:date];
 		}
-		
-		[self selectDate:date];
-
-		if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
-			[self.delegate datePickerView:self didSelectDate:date];
-		}
-	}
-	else {
+	} else {
 		[self selectDateInDateRange:date];
 
 		if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectStartDate:endDate:)]) {
@@ -688,6 +690,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 - (void)selectDateInDateRange:(NSDate *)date
 {
 	__weak typeof(self) weakSelf = self;
+
+	[self selectDate:nil];
 
 	// Range already completed, user is trying to cancel and start a new range (reset)
 	if (self.selectedStartDateRange && self.selectedEndDateRange) {
@@ -786,7 +790,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     
     if (!cell.isNotThisMonth) {
         NSUInteger cellDateWeekday = [self.calendar components:NSCalendarUnitWeekday fromDate:cellDate].weekday;
-        cell.dayOff = (cellDateWeekday == self.calendar.rsdf_saturdayIndex) || (cellDateWeekday == self.calendar.rsdf_sundayIndex);
+        cell.dayOff = (cellDateWeekday == 7) || (cellDateWeekday == 1);
         
         if ([self.dataSource respondsToSelector:@selector(datePickerView:shouldMarkDate:)]) {
             cell.marked = [self.dataSource datePickerView:self shouldMarkDate:cellDate];
