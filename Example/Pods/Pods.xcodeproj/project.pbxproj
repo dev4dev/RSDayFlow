@@ -25,7 +25,6 @@
 		BFB761539A6FE6877EF623C799B7FF46 /* Pods-RSDayFlowExample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 34EC10B5BAAFCE84CBF4B78ED31FBDB9 /* Pods-RSDayFlowExample-dummy.m */; };
 		C3AFFB8B0AA41558F506C75576520EB1 /* RSDFDatePickerMonthHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B63757BC66006E7F04783277F22989 /* RSDFDatePickerMonthHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C81B688B50917B02FDC96D3A773280DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A817CAE99C81EE68006DC1E60E295C0A /* Foundation.framework */; };
-		CF14EF5CF7FD1F64FDA8480E407558A5 /* RSDFDatePickerView+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = D53D0DA5CA1CFCED52E3D9461ECAEAB6 /* RSDFDatePickerView+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD87620B76A42FA0C83B82624414A8F4 /* RSDFDatePickerCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A45E68A3FCC49B5E50E1B4ACFE29A652 /* RSDFDatePickerCollectionViewLayout.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		DF61B78C2E56205624A5C51F6A2C9A09 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091D54A73E1E8BB182C9D7D245AF1C2F /* UIKit.framework */; };
 		E48B0A62C0375C2C03D0DF0B7D09B5F0 /* RSDFDatePickerDate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7795A145EB8257FDC85AEBE3A2C6D72B /* RSDFDatePickerDate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -72,7 +71,6 @@
 		ABBE2AFC97D716EBF9BD6EC4556E3A97 /* libRSDayFlow.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRSDayFlow.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2268330690F9D8A42E581ADEB0C70D /* RSDFDatePickerCollectionView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RSDFDatePickerCollectionView.h; path = RSDayFlow/RSDFDatePickerCollectionView.h; sourceTree = "<group>"; };
 		C18089E83632EFB9A0FDF583C157CD13 /* Pods-RSDayFlowExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RSDayFlowExample.release.xcconfig"; sourceTree = "<group>"; };
-		D53D0DA5CA1CFCED52E3D9461ECAEAB6 /* RSDFDatePickerView+Protected.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "RSDFDatePickerView+Protected.h"; path = "RSDayFlow/RSDFDatePickerView+Protected.h"; sourceTree = "<group>"; };
 		D9C672F72FB0415FE6AC4146BFCE1559 /* libPods-RSDayFlowExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSDayFlowExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5B4DF153ADFC79F7B89D2C03B48A203 /* RSDFDatePickerCollectionView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RSDFDatePickerCollectionView.m; path = RSDayFlow/RSDFDatePickerCollectionView.m; sourceTree = "<group>"; };
 		E60A9D30EEBE31529482609396B73120 /* Pods-RSDayFlowExample-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-RSDayFlowExample-resources.sh"; sourceTree = "<group>"; };
@@ -150,7 +148,6 @@
 				A008C70879AD293A2086E2D92D8FB988 /* RSDFDatePickerMonthHeader.m */,
 				5EF6B6767B815A1E41F5EDBB09E34CBE /* RSDFDatePickerView.h */,
 				4545451B000124DA4102B811DEBE37D3 /* RSDFDatePickerView.m */,
-				D53D0DA5CA1CFCED52E3D9461ECAEAB6 /* RSDFDatePickerView+Protected.h */,
 				59C2C0CDC241DB310FF35D4F3011B229 /* Support Files */,
 			);
 			path = RSDayFlow;
@@ -220,7 +217,6 @@
 				610C23DF08E4A14FB759BAC2CECB5E46 /* RSDFDatePickerDayCell.h in Headers */,
 				A5E1883407D63CBD8CCB2949B2FB053E /* RSDFDatePickerDaysOfWeekView.h in Headers */,
 				C3AFFB8B0AA41558F506C75576520EB1 /* RSDFDatePickerMonthHeader.h in Headers */,
-				CF14EF5CF7FD1F64FDA8480E407558A5 /* RSDFDatePickerView+Protected.h in Headers */,
 				40AA00C802FC5F7A3DCC6C17F77F3985 /* RSDFDatePickerView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

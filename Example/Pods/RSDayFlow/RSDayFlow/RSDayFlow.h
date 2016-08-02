@@ -31,7 +31,6 @@
 #define RSDayFlow_RSDayFlow_h
 
 #import <RSDayFlow/RSDFDatePickerView.h>
-#import <RSDayFlow/RSDFDatePickerView+Protected.h>
 #import <RSDayFlow/RSDFDatePickerDate.h>
 #import <RSDayFlow/RSDFDatePickerDaysOfWeekView.h>
 #import <RSDayFlow/RSDFDatePickerCollectionView.h>

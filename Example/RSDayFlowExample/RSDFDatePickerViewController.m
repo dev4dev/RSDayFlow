@@ -68,8 +68,8 @@
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
     
-	NSDate *endDate = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:9 toDate:[NSDate date] options:0];
-	[self.datePickerView selectDateRange:[NSDate date] lastDate:endDate];
+//	NSDate *endDate = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:9 toDate:[NSDate date] options:0];
+//	[self.datePickerView selectDateRange:[NSDate date] lastDate:endDate];
 
     self.customDatePickerView.hidden = YES;
     
@@ -172,7 +172,7 @@
 		});
         _datePickerView.delegate = self;
         _datePickerView.dataSource = self;
-		_datePickerView.selectionMode = RSDFSelectionModeRange;
+//		_datePickerView.selectionMode = RSDFSelectionModeRange;
 		_datePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	}
 	return _datePickerView;
