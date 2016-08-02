@@ -250,20 +250,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable UIImage *)customOverlayImage;
 
-/**
- The color of the divider image for the cell of the day. Default value is [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0f].
- 
- @discussion Can be overridden in subclasses for customization. Ignored if `customDividerImage` is not equal to `nil`.
- */
-- (UIColor *)dividerImageColor;
-
-/**
- The custom divider image for the cell of the day. Default value is `nil`.
- 
- @discussion Can be overridden in subclasses for customization.
- */
-- (nullable UIImage *)customDividerImage;
-
 @end
 
 NS_ASSUME_NONNULL_END

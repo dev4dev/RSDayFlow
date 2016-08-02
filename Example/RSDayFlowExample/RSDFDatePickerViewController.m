@@ -162,7 +162,7 @@
 - (RSDFDatePickerView *)datePickerView
 {
 	if (!_datePickerView) {
-		NSDate *endDate = [self.calendar dateByAddingUnit:NSCalendarUnitMonth value:12 toDate:[NSDate date] options:0];
+		NSDate *endDate = [self.calendar dateByAddingUnit:NSCalendarUnitYear value:1 toDate:[NSDate date] options:0];
 		endDate = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:-1 toDate:endDate options:0];
 		_datePickerView = [[RSDFDatePickerView alloc] initWithFrame:CGRectInset(self.view.bounds, 20, 0) calendar:self.calendar startDate:[NSDate date] endDate:endDate];
 		_datePickerView.frame = ({
@@ -172,7 +172,7 @@
 		});
         _datePickerView.delegate = self;
         _datePickerView.dataSource = self;
-//		_datePickerView.selectionMode = RSDFSelectionModeRange;
+		_datePickerView.selectionMode = RSDFSelectionModeRange;
 		_datePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	}
 	return _datePickerView;
