@@ -49,14 +49,4 @@
     return [self maximumRangeOfUnit:NSCalendarUnitWeekday].length;
 }
 
-- (NSUInteger)rsdf_saturdayIndex
-{
-    return 7;
-}
-
-- (NSUInteger)rsdf_sundayIndex
-{
-    return 1;
-}
-
 @end

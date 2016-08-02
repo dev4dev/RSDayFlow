@@ -68,14 +68,6 @@
     self.delaysContentTouches = NO;
 }
 
-- (void)layoutSubviews
-{
-    if ([self.delegate respondsToSelector:@selector(pickerCollectionViewWillLayoutSubviews:)]) {
-        [self.delegate pickerCollectionViewWillLayoutSubviews:self];
-    }
-	[super layoutSubviews];
-}
-
 #pragma mark - Atrributes of the View
 
 - (UIColor *)selfBackgroundColor

@@ -27,38 +27,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class RSDFDatePickerCollectionView;
-
-/**
- The `RSDFDatePickerCollectionViewDelegate` protocol defines the message sent to a collection view delegate when the collection view will layout subviews.
- */
-@protocol RSDFDatePickerCollectionViewDelegate <UICollectionViewDelegate>
-
-///---------------------------------
-/// @name Supporting Layout Subviews
-///---------------------------------
-
-/**
- Tells the delegate that the collection view will layout subviews.
- 
- @param pickerCollectionView The collection view which will layout subviews.
- */
-- (void)pickerCollectionViewWillLayoutSubviews:(RSDFDatePickerCollectionView *)pickerCollectionView;
-
-@end
-
-
 /**
  The `RSDFDatePickerCollectionView` is a collection view which used to display days and months in the date picker view.
  */
 @interface RSDFDatePickerCollectionView : UICollectionView
-
-/**
- The receiver's delegate.
- 
- @discussion A `RSDFDatePickerCollectionView` delegate uses to support layout subviews in the date picker view.
- */
-@property (nonatomic, weak, nullable) id <RSDFDatePickerCollectionViewDelegate> delegate;
 
 ///---------------------------------------
 /// @name Accessing Attributes of the View
