@@ -69,7 +69,7 @@
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
     
 //	NSDate *endDate = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:9 toDate:[NSDate date] options:0];
-	[self.datePickerView selectDateRange:[NSDate date] lastDate:nil];
+	[self.datePickerView selectDateRange:nil lastDate:nil];
 
     self.customDatePickerView.hidden = YES;
     
@@ -194,11 +194,21 @@
 
 - (void)onTodayButtonTouch:(UIBarButtonItem *)sender
 {
-    if (!self.datePickerView.hidden) {
-        [self.datePickerView scrollToToday:YES];
-    } else {
-        [self.customDatePickerView scrollToToday:YES];
-    }
+	switch (self.datePickerView.selectionMode) {
+		case RSDFSelectionModeSingle: {
+			self.datePickerView.selectionMode = RSDFSelectionModeRange;
+			break;
+		}
+		case RSDFSelectionModeRange: {
+			self.datePickerView.selectionMode = RSDFSelectionModeSingle;
+			break;
+		}
+	}
+//    if (!self.datePickerView.hidden) {
+//        [self.datePickerView scrollToToday:YES];
+//    } else {
+//        [self.customDatePickerView scrollToToday:YES];
+//    }
 }
 
 - (void)onRestyleButtonTouch:(UIBarButtonItem *)sender

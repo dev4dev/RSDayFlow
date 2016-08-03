@@ -207,6 +207,16 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 {
 	_selectionMode = selectionMode;
 
+	switch (selectionMode) {
+		case RSDFSelectionModeSingle: {
+			[self clearRangeSelection];
+			break;
+		}
+		case RSDFSelectionModeRange: {
+			[self selectDate:nil];
+			break;
+		}
+	}
 	self.collectionView.allowsMultipleSelection = selectionMode == RSDFSelectionModeRange;
 }
 
@@ -687,26 +697,29 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 	}
 }
 
-- (void)selectDateInDateRange:(NSDate *)date
+- (void)clearRangeSelection
 {
-	__weak typeof(self) weakSelf = self;
-
-	[self selectDate:nil];
-
-	// Range already completed, user is trying to cancel and start a new range (reset)
 	if (self.selectedStartDateRange && self.selectedEndDateRange) {
 
 		NSIndexPath *firstIndexPath = [self indexPathForDate:self.selectedStartDateRange];
 		NSIndexPath *lastIndexPath = [self indexPathForDate:self.selectedEndDateRange];
 
 		[self enumerateBetweenFirstIndexPath:firstIndexPath secondIndexPath:lastIndexPath withBlock:^(NSIndexPath *indexPath) {
-			[weakSelf.collectionView deselectItemAtIndexPath:indexPath animated:NO];
-			[[weakSelf.collectionView cellForItemAtIndexPath:indexPath] setNeedsDisplay];
+			[self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+			[[self.collectionView cellForItemAtIndexPath:indexPath] setNeedsDisplay];
 		}];
 
 		_selectedStartDateRange = nil;
 		_selectedEndDateRange = nil;
 	}
+}
+
+- (void)selectDateInDateRange:(NSDate *)date
+{
+	__weak typeof(self) weakSelf = self;
+
+	// Range already completed, user is trying to cancel and start a new range (reset)
+	[self clearRangeSelection];
 
 	if (self.selectedStartDateRange == nil) {
 		_selectedStartDateRange = date;
