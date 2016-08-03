@@ -199,6 +199,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
     self.selectedDayImageView.hidden = !self.isSelected || self.isNotThisMonth || self.isOutOfRange;
     self.overlayImageView.hidden = !self.isHighlighted || self.isNotThisMonth || self.isOutOfRange;
     self.markImageView.hidden = !self.isMarked || self.isNotThisMonth || self.isOutOfRange;
+	self.dateLabel.backgroundColor = [UIColor clearColor];
 
     if (self.isNotThisMonth) {
         self.dateLabel.textColor = [self notThisMonthLabelTextColor];
@@ -206,6 +207,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
     } else {
         if (self.isOutOfRange) {
             self.dateLabel.textColor = [self outOfRangeDayLabelTextColor];
+			self.dateLabel.backgroundColor = [UIColor colorWithRed:246/255.0 green:246/255.0 blue:246/255.0 alpha:1];
             self.dateLabel.font = [self outOfRangeDayLabelFont];
         } else {
             if (self.isSelected) {
@@ -321,7 +323,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 
 - (UIFont *)dayLabelFont
 {
-    return [UIFont fontWithName:@"HelveticaNeue" size:18.0f];
+    return [UIFont fontWithName:@"SFUIText-Regular" size:17.0f];
 }
 
 - (UIColor *)dayLabelTextColor
@@ -336,12 +338,12 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 
 - (UIColor *)outOfRangeDayLabelTextColor
 {
-    return [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f];
+	return [UIColor colorWithRed:164/255.0 green:170/255.0 blue:179/255.0 alpha:1];
 }
 
 - (UIFont *)outOfRangeDayLabelFont
 {
-    return [UIFont fontWithName:@"HelveticaNeue" size:18.0f];
+    return [UIFont fontWithName:@"SFUIText-Regular" size:17.0f];
 }
 
 - (UIColor *)notThisMonthLabelTextColor
@@ -361,7 +363,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 
 - (UIFont *)todayLabelFont
 {
-    return [UIFont fontWithName:@"HelveticaNeue" size:18.0f];
+    return [UIFont fontWithName:@"SFUIText-Regular" size:17.0f];
 }
 
 - (UIColor *)todayLabelTextColor
@@ -371,7 +373,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 
 - (UIFont *)selectedTodayLabelFont
 {
-    return [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f];
+    return [UIFont fontWithName:@"SFUIText-Regular" size:17.0f];
 }
 
 - (UIColor *)selectedTodayLabelTextColor
@@ -402,7 +404,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 
 - (UIFont *)selectedDayLabelFont
 {
-    return [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f];
+    return [UIFont fontWithName:@"SFUIText-Regular" size:17.0f];
 }
 
 - (UIColor *)selectedDayLabelTextColor
