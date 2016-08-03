@@ -377,12 +377,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)selectDateRange:(NSDate * __nullable)firstDate lastDate:(NSDate * __nullable)lastDate
 {
-	if (firstDate != nil) {
-		[self selectDateInDateRange:firstDate];
-	}
-	if (lastDate != nil) {
-		[self selectDateInDateRange:lastDate];
-	}
+	[self selectDateInDateRange:firstDate];
+	[self selectDateInDateRange:lastDate];
 }
 
 - (void)commonInitializer
@@ -721,6 +717,9 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 	// Range already completed, user is trying to cancel and start a new range (reset)
 	[self clearRangeSelection];
 
+	if (!date) {
+		return;
+	}
 	if (self.selectedStartDateRange == nil) {
 		_selectedStartDateRange = date;
 
