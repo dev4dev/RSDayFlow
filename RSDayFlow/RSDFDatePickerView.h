@@ -138,6 +138,8 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  */
 - (void)selectDateRange:(NSDate * __nullable)firstDate lastDate:(NSDate * __nullable)lastDate;
 
+- (void)clearSelection;
+
 ///-------------------------
 /// @name Reloading the Data
 ///-------------------------

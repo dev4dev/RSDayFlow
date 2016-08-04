@@ -381,6 +381,12 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 	[self selectDateInDateRange:lastDate];
 }
 
+- (void)clearSelection
+{
+	[self selectDate:nil];
+	[self clearRangeSelection];
+}
+
 - (void)commonInitializer
 {
     NSDateComponents *nowYearMonthComponents = [self.calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth) fromDate:[NSDate date]];
