@@ -385,6 +385,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 {
 	[self selectDate:nil];
 	[self clearRangeSelection];
+	_selectedStartDateRange = nil;
+	_selectedEndDateRange = nil;
 }
 
 - (void)commonInitializer
