@@ -76,7 +76,7 @@
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
     NSArray *supersAttributes = [super layoutAttributesForElementsInRect:rect];
-    
+
     if (self.direction == RSDFDatePickerCollectionViewLayoutDirectionRightToLeft) {
         for (UICollectionViewLayoutAttributes *attributes in supersAttributes) {
             CGRect frame = attributes.frame;
@@ -84,15 +84,15 @@
             attributes.frame = frame;
         }
     }
-    
+
     return supersAttributes;
 }
 
 - (CGSize)selfHeaderReferenceSize
 {
     CGFloat selfHeaderReferenceWidth = CGRectGetWidth(self.collectionView.frame);
-    CGFloat selfHeaderReferenceHeight = 64.0f;
-    
+    CGFloat selfHeaderReferenceHeight = 32.0f;
+
     return (CGSize){ selfHeaderReferenceWidth, selfHeaderReferenceHeight };
 }
 
@@ -100,11 +100,11 @@
 {
     NSUInteger numberOfItemsInTheSameRow = 7;
     CGFloat totalInteritemSpacing = [self minimumInteritemSpacing] * (numberOfItemsInTheSameRow - 1);
-    
+
     CGFloat selfItemWidth = (CGRectGetWidth(self.collectionView.frame) - totalInteritemSpacing) / numberOfItemsInTheSameRow;
     selfItemWidth = floor(selfItemWidth * 1000) / 1000;
     CGFloat selfItemHeight = selfItemWidth;
-    
+
     return (CGSize){ selfItemWidth, selfItemHeight };
 }
 
