@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  A Boolean value that determines whether the cell's day that's not this month.
- 
+
  @discussion Cells with these days do not display the today image, the overlay image, the marks and the divider image.
 */
 @property (nonatomic, getter = isNotThisMonth) BOOL notThisMonth;
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The color of the default mark image for the cell of the day. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
- 
+
  @discussion Will be used to create the mark image if `markImage` is equal to `nil`.
  */
 @property (nonatomic, copy) UIColor *markImageColor;
@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The view’s background color. Default value is `[UIColor clearColor]`.
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)selfBackgroundColor;
@@ -112,143 +112,150 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The font of the text which displayed by the label of the day. Default value is [UIFont fontWithName:@"HelveticaNeue" size:18.0f].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIFont *)dayLabelFont;
 
 /**
  The text color for the label of the day. Default value is [UIColor blackColor].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)dayLabelTextColor;
 
 /**
  The text color for the label of the day off. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)dayOffLabelTextColor;
 
 /**
  The text color for the label of the disabled day (not in range of start/end date set on calendar). Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)outOfRangeDayLabelTextColor;
 
 /**
  The font for the label of the disabled day (not in range of start/end date set on calendar). Default value is [UIFont fontWithName:@"HelveticaNeue" size:18.0f].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIFont *)outOfRangeDayLabelFont;
 
 /**
  The text color for the label of the day that's not this month. Default value is [UIColor clearColor].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)notThisMonthLabelTextColor;
 
 /**
  The text color for the label of the past day when it is selected. Default value is [UIColor blackColor].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)pastDayLabelTextColor;
 
 /**
  The text color for the label of the past day off when it is selected. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)pastDayOffLabelTextColor;
 
 /**
  The font for the label of the current day. Default value is [UIFont fontWithName:@"HelveticaNeue" size:18.0f].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIFont *)todayLabelFont;
 
 /**
  The text color for the label of the current day. Default value is [UIColor colorWithRed:0/255.0f green:121/255.0f blue:255/255.0f alpha:1.0f].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)todayLabelTextColor;
 
 /**
  The font for the label of the current day when it is selected. Default value is [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIFont *)selectedTodayLabelFont;
 
 /**
  The text color for the label of the current day when it is selected. Default value is [UIColor whiteColor].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)selectedTodayLabelTextColor;
 
 /**
  The color of the background image for the cell of the current day. Default value is [UIColor colorWithRed:0/255.0f green:121/255.0f blue:255/255.0f alpha:1.0f].
- 
+
  @discussion Can be overridden in subclasses for customization. Ignored if `customSelectedTodayImage` is not equal to `nil`.
  */
 - (UIColor *)selectedTodayImageColor;
 
 /**
  The custom background image for the cell of the current day. Default value is `nil`.
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (nullable UIImage *)customSelectedTodayImage;
 
 /**
  The font for the label of the day when it is selected. Default value is [UIFont fontWithName:@"HelveticaNeue-Bold" size:19.0f].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIFont *)selectedDayLabelFont;
 
 /**
  The text color for the label of the day when it is selected. Default value is [UIColor whiteColor].
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (UIColor *)selectedDayLabelTextColor;
 
 /**
  The color of the background image for the cell of the day when it is selected. Default value is [UIColor colorWithRed:255/255.0f green:59/255.0f blue:48/255.0f alpha:1.0f].
- 
+
  @discussion Can be overridden in subclasses for customization. Ignored if `customSelectedDayImage` is not equal to `nil`.
  */
 - (UIColor *)selectedDayImageColor;
 
 /**
  The custom background image for the cell of the day when it is selected. Default value is `nil`.
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (nullable UIImage *)customSelectedDayImage;
 
 /**
  The color of the overlay image for the cell of the day. Default value is [UIColor colorWithRed:184/255.0f green:184/255.0f blue:184/255.0f alpha:1.0f].
- 
+
  @discussion Can be overridden in subclasses for customization. Ignored if `customOverlayImage` is not equal to `nil`.
  */
 - (UIColor *)overlayImageColor;
 
 /**
  The custom overlay image for the cell of the current day. Default value is `nil`.
- 
+
  @discussion Can be overridden in subclasses for customization.
  */
 - (nullable UIImage *)customOverlayImage;
+
+/**
+ Default selection bubble rectangle.
+
+ @discussion Can be overridden in subclasses for customization.
+ */
+- (CGRect)selectedImageViewFrame;
 
 @end
 

@@ -47,32 +47,32 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	
+
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
+
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.opaque = YES;
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1.0f];
-    
+
     self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:17.0f]};
-    
+
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
-    
+
     UIBarButtonItem *todayBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain target:self action:@selector(onTodayButtonTouch:)];
     self.navigationItem.rightBarButtonItem = todayBarButtonItem;
-    
+
     UIBarButtonItem *restyleBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Restyle" style:UIBarButtonItemStylePlain target:self action:@selector(onRestyleButtonTouch:)];
     self.navigationItem.leftBarButtonItem = restyleBarButtonItem;
-    
-    self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
-    
+
+    self.view.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+
 //	NSDate *endDate = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:9 toDate:[NSDate date] options:0];
 	[self.datePickerView selectDateRange:nil lastDate:nil];
 
     self.customDatePickerView.hidden = YES;
-    
+
     [self.view addSubview:self.customDatePickerView];
     [self.view addSubview:self.datePickerView];
 }
@@ -83,7 +83,7 @@
 {
     if (![_calendar isEqual:calendar]) {
         _calendar = calendar;
-        
+
         self.title = [_calendar.calendarIdentifier capitalizedString];
     }
 }
@@ -92,7 +92,7 @@
 {
     if (!_datesToMark) {
         NSArray *numberOfDaysFromToday = @[@(-8), @(-2), @(-1), @(0), @(2), @(4), @(8), @(13), @(22)];
-        
+
         NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
         NSMutableArray *datesToMark = [[NSMutableArray alloc] initWithCapacity:[numberOfDaysFromToday count]];
         [numberOfDaysFromToday enumerateObjectsUsingBlock:^(NSNumber *numberOfDays, NSUInteger idx, BOOL *stop) {
@@ -100,7 +100,7 @@
             NSDate *date = [self.calendar dateByAddingComponents:dateComponents toDate:self.today options:0];
             [datesToMark addObject:date];
         }];
-        
+
         _datesToMark = [datesToMark copy];
     }
     return _datesToMark;
@@ -117,7 +117,7 @@
             }
             statesOfTasks[date] = @(isCompletedAllTasks);
         }];
-        
+
         _statesOfTasks = [statesOfTasks copy];
     }
     return _statesOfTasks;
@@ -238,11 +238,11 @@
 //    if (view == self.datePickerView) {
 //        return YES;
 //    }
-//    
+//
 //    if ([self.today compare:date] == NSOrderedDescending) {
 //        return NO;
 //    }
-//    
+//
 //    return YES;
 //}
 //
@@ -251,11 +251,11 @@
 //    if (view == self.datePickerView) {
 //        return YES;
 //    }
-//    
+//
 //    if ([self.today compare:date] == NSOrderedDescending) {
 //        return NO;
 //    }
-//    
+//
 //    return YES;
 //}
 //

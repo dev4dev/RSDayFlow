@@ -59,10 +59,11 @@
 - (UILabel *)dateLabel
 {
 	if (!_dateLabel) {
-		_dateLabel = [[UILabel alloc] initWithFrame:self.bounds];
+        CGRect frame = UIEdgeInsetsInsetRect(self.bounds, self.selfEdgeInsets);
+        _dateLabel = [[UILabel alloc] initWithFrame:frame];
         _dateLabel.backgroundColor = [UIColor clearColor];
         _dateLabel.opaque = NO;
-		_dateLabel.textAlignment = NSTextAlignmentCenter;
+		_dateLabel.textAlignment = NSTextAlignmentRight;
 		_dateLabel.font = [self monthLabelFont];
 		_dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		[self addSubview:_dateLabel];
@@ -85,6 +86,13 @@
     }
 }
 
+#pragma mark - Attributes of the Layout
+
+- (RSDFMonthsDisplayStyle)displayStyle
+{
+    return RSDFMonthsDisplayStyleFull;
+}
+
 #pragma mark - Attributes of the View
 
 - (UIColor *)selfBackgroundColor
@@ -92,11 +100,16 @@
     return [UIColor clearColor];
 }
 
+- (UIEdgeInsets)selfEdgeInsets
+{
+    return UIEdgeInsetsMake(0, 0, 0, 14.0);
+}
+
 #pragma mark - Attributes of Subviews
 
 - (UIFont *)monthLabelFont
 {
-    return [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
+    return [UIFont fontWithName:@"SFUIText-Medium" size:15.0f];
 }
 
 - (UIColor *)monthLabelTextColor
@@ -106,7 +119,7 @@
 
 - (UIColor *)currentMonthLabelTextColor
 {
-    return [UIColor colorWithRed:32/255.0f green:135/255.0f blue:252/255.0f alpha:1.0f];
+    return [UIColor blackColor];
 }
 
 @end
