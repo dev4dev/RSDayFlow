@@ -74,7 +74,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
+
     [self updateWeekdayLabels];
     [self layoutWeekdayLabels];
 }
@@ -95,10 +95,10 @@
 - (void)commonInitializer
 {
     self.backgroundColor = [self selfBackgroundColor];
-    
+
     self.daysInWeek = self.calendar.rsdf_daysInWeek;
     self.originalIndexOfFirstWeekdaySymbol = self.calendar.firstWeekday - 1;
-    
+
     NSString *dateFormatterName = [NSString stringWithFormat:@"calendarDaysOfWeekView_%@_%@", [self.calendar calendarIdentifier], [[self.calendar locale] localeIdentifier]];
     NSDateFormatter *dateFormatter = [self.calendar df_dateFormatterNamed:dateFormatterName withConstructor:^{
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -109,7 +109,7 @@
     self.veryShortStandaloneWeekdaySymbols = [dateFormatter veryShortStandaloneWeekdaySymbols];
     self.shortStandaloneWeekdaySymbols = [dateFormatter shortStandaloneWeekdaySymbols];
     self.standaloneWeekdaySymbols = [dateFormatter standaloneWeekdaySymbols];
-    
+
     if (self.originalIndexOfFirstWeekdaySymbol != 0) {
         self.veryShortStandaloneWeekdaySymbols = [self reorderedWeekdaySymbols:self.veryShortStandaloneWeekdaySymbols indexOfFirstWeekdaySymbol:self.originalIndexOfFirstWeekdaySymbol];
         self.shortStandaloneWeekdaySymbols = [self reorderedWeekdaySymbols:self.shortStandaloneWeekdaySymbols indexOfFirstWeekdaySymbol:self.originalIndexOfFirstWeekdaySymbol];
@@ -121,11 +121,11 @@
 {
     CGSize itemSize = [self selfItemSize];
     CGFloat interitemSpacing = [self selfInteritemSpacing];
-    
+
     // recalculate the frames
     CGFloat y = 0.0;
     __block CGFloat x;
-    
+
     NSLocaleLanguageDirection characterDirection = [NSLocale characterDirectionForLanguage:self.calendar.locale.localeIdentifier];
     if (characterDirection == NSLocaleLanguageDirectionRightToLeft) {
         x = CGRectGetWidth(self.frame) - itemSize.width;
@@ -148,7 +148,7 @@
 {
     CGSize boundingRectSize = CGSizeMake(CGFLOAT_MAX, [self selfItemSize].height);
     UIFont *font = [self dayOfWeekLabelFont];
-    
+
     __block CGFloat maxWidthOfSymbols = 0.0;
     [symbols enumerateObjectsUsingBlock:^(NSString* theString, NSUInteger idx,BOOL *stop) {
         CGFloat currentWidth = ceilf([theString boundingRectWithSize:boundingRectSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName:font } context:nil].size.width);
@@ -156,7 +156,7 @@
             maxWidthOfSymbols = currentWidth;
         }
     }];
-    
+
     return maxWidthOfSymbols;
 }
 
@@ -178,20 +178,20 @@
 - (void)updateWeekdayLabels
 {
     NSArray *symbolsToUse;
-    
+
     RSDFDaysOfWeekDisplayStyle style = [self displayStyle];
     if (style == RSDFDaysOfWeekDisplayStyleAuto) {
-        
+
         UIEdgeInsets selfItemInsets = [self selfItemInsets];
         CGFloat maxAvailableItemWidth = [self selfItemSize].width - selfItemInsets.left - selfItemInsets.right;
-        
+
         // first check if the largest one fits
         CGFloat maxWidthOfSymbols = [self maxWidthOfSymbols:self.standaloneWeekdaySymbols];
         if (maxWidthOfSymbols > maxAvailableItemWidth) { // it did not fit
-            
+
             maxWidthOfSymbols = [self maxWidthOfSymbols:self.shortStandaloneWeekdaySymbols];
             if (maxWidthOfSymbols > maxAvailableItemWidth) { // it did not fit -> use very short symbols
-                
+
                 symbolsToUse = [self.veryShortStandaloneWeekdaySymbols copy];
             } else {
                 symbolsToUse = [self.shortStandaloneWeekdaySymbols copy];
@@ -222,9 +222,9 @@
     }
     if (![symbolsToUse isEqualToArray:self.lastSymbolsUsed]){
         // there is now a different set of symbols so we need to reinit/retext the labels
-        
+
         UIFont *dayOfWeekLabelFont = [self dayOfWeekLabelFont];
-        
+
         if (self.weekdayLabels) { // the were already created so just change the text and update the font
             [self.weekdayLabels enumerateObjectsUsingBlock:^(UILabel *weekdayLabel, NSUInteger idx, BOOL *stop) {
                 weekdayLabel.text = [symbolsToUse objectAtIndex:idx];
@@ -235,7 +235,7 @@
             UIColor *dayOfWeekLabelTextColor = [self dayOfWeekLabelTextColor];
             UIColor *dayOffOfWeekLabelTextColor = [self dayOffOfWeekLabelTextColor];
             UIFont *dayOffOfWeekLabelFont = [self dayOffOfWeekLabelFont];
-            
+
             NSMutableArray *weekdayLabels = [NSMutableArray arrayWithCapacity:[symbolsToUse count]];
             [symbolsToUse enumerateObjectsUsingBlock:^(NSString *weekdaySymbol, NSUInteger idx, BOOL *stop) {
                 UILabel *weekdayLabel = [[UILabel alloc] init];
@@ -275,7 +275,7 @@
 
 - (UIColor *)selfBackgroundColor
 {
-    return [UIColor colorWithRed:248.0/255 green:248.0/255 blue:248.0/255 alpha:1.0];
+    return [UIColor whiteColor];
 }
 
 #pragma mark - Attributes of the Layout
@@ -284,11 +284,11 @@
 {
     NSUInteger numberOfItems = self.daysInWeek;
     CGFloat totalInteritemSpacing = [self selfInteritemSpacing] * (numberOfItems - 1);
-    
+
     CGFloat selfItemWidth = (CGRectGetWidth(self.frame) - totalInteritemSpacing) / numberOfItems;
     selfItemWidth = floor(selfItemWidth * 1000) / 1000;
     CGFloat selfItemHeight = CGRectGetHeight(self.frame);
-    
+
     return (CGSize){ selfItemWidth, selfItemHeight };
 }
 
@@ -311,6 +311,11 @@
 
 - (UIFont *)dayOfWeekLabelFont
 {
+	UIFont *font = [UIFont fontWithName:@"SFUIText-Semibold" size:13];
+	if (font) {
+		return font;
+	}
+	
     if ([self isPhone]) {
         if ([self isPortraitInterfaceOrientation]) {
             return [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
@@ -324,6 +329,11 @@
 
 - (UIFont *)dayOffOfWeekLabelFont
 {
+	UIFont *font = [UIFont fontWithName:@"SFUIText-Semibold" size:13];
+	if (font) {
+		return font;
+	}
+
     if ([self isPhone]) {
         if ([self isPortraitInterfaceOrientation]) {
             return [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
