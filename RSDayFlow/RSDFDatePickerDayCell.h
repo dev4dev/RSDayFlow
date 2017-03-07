@@ -51,6 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readwrite, assign) RSDFDatePickerDate date;
 
+@property (nonatomic, getter = isEnabled) BOOL enabled;
+
 /**
  A Boolean value that determines whether the cell's day that's not this month.
 

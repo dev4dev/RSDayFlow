@@ -57,6 +57,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 @property (nonatomic, readonly, strong) NSDate *startDate;
 @property (nonatomic, readonly, strong) NSDate *endDate;
 
+@property (nonatomic, strong) NSIndexPath *rangeSelectionFirstIndexPath;
+
 @end
 
 @implementation RSDFDatePickerView
@@ -94,11 +96,12 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar startDate:(NSDate *)startDate endDate:(NSDate *)endDate
+- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar dataSource:(id<RSDFDatePickerViewDataSource>)dataSource startDate:(NSDate *)startDate endDate:(NSDate *)endDate
 {
     self = [super initWithFrame:frame];
     if (self) {
         _calendar = calendar;
+		_dataSource = dataSource;
         _startDate = startDate ? [self dateWithoutTimeComponents:startDate] : nil;
         _endDate = endDate ? [self dateWithoutTimeComponents:endDate] : nil;
         [self commonInitializer];
@@ -377,8 +380,8 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 - (void)selectDateRange:(NSDate * __nullable)firstDate lastDate:(NSDate * __nullable)lastDate
 {
-	[self selectDateInDateRange:firstDate];
-	[self selectDateInDateRange:lastDate];
+	[self selectDateInDateRange:firstDate atIndexPath:nil];
+	[self selectDateInDateRange:lastDate atIndexPath:nil];
 }
 
 - (void)clearSelection
@@ -681,10 +684,65 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 #pragma mark - Private
 
+- (BOOL)doesDatesRangeHaveDisabledCellsFrom:(NSIndexPath *)fromIndexPath to:(NSIndexPath *)toIndexPath {
+	NSMutableArray<RSDFDatePickerDayCell *> *cells = [NSMutableArray array];
+
+	if (fromIndexPath.section == toIndexPath.section) {
+		NSUInteger from = MIN(fromIndexPath.row, toIndexPath.row);
+		NSUInteger to = MAX(fromIndexPath.row, toIndexPath.row);
+
+		for (NSUInteger i = from; i <= to; ++i) {
+			NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:fromIndexPath.section];
+			[cells addObject:(RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip]];
+		}
+	} else {
+		NSIndexPath *from;
+		NSIndexPath *to;
+		if (fromIndexPath.section < toIndexPath.section) {
+			from = fromIndexPath;
+			to = toIndexPath;
+		} else {
+			from = toIndexPath;
+			to = fromIndexPath;
+		}
+
+		NSUInteger fromLimit = [self.collectionView numberOfItemsInSection:from.section];
+		for (NSInteger i = from.row; i < fromLimit; ++i) {
+			NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:from.section];
+			RSDFDatePickerDayCell *cell = (RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip];
+			if (!cell.isOutOfRange) {
+				[cells addObject:(RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip]];
+			}
+		}
+
+		for (NSInteger i = 0; i <= to.row; ++i) {
+			NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:to.section];
+			RSDFDatePickerDayCell *cell = (RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip];
+			if (!cell.isOutOfRange) {
+				[cells addObject:(RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip]];
+			}
+		}
+	}
+
+	__block BOOL result = NO;
+	[cells enumerateObjectsUsingBlock:^(RSDFDatePickerDayCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
+		if (!cell.isEnabled) {
+			result = YES;
+			*stop = YES;
+		}
+	}];
+
+	return result;
+}
+
 - (void)handleSelectAndDeselect:(NSIndexPath *)indexPath
 {
 	RSDFDatePickerDayCell *cell = ((RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:indexPath]);
 	NSDate *date = cell ? [self dateFromPickerDate:cell.date] : nil;
+
+	if (!cell.isEnabled) {
+		return;
+	}
 
 	if (self.selectionMode == RSDFSelectionModeSingle) {
 		[self selectDate:date];
@@ -693,7 +751,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 			[self.delegate datePickerView:self didSelectDate:date];
 		}
 	} else {
-		[self selectDateInDateRange:date];
+		[self selectDateInDateRange:date atIndexPath:indexPath];
 
 		if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectStartDate:endDate:)]) {
 			[self.delegate datePickerView:self didSelectStartDate:self.selectedStartDateRange endDate:self.selectedEndDateRange];
@@ -718,7 +776,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 	}
 }
 
-- (void)selectDateInDateRange:(NSDate *)date
+- (void)selectDateInDateRange:(NSDate *)date atIndexPath:(NSIndexPath *)indexPath
 {
 	__weak typeof(self) weakSelf = self;
 
@@ -730,11 +788,17 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 	}
 	if (self.selectedStartDateRange == nil) {
 		_selectedStartDateRange = date;
+		_rangeSelectionFirstIndexPath = indexPath;
 
 		NSIndexPath *indexPathForSelectedDate = [self indexPathForDate:date];
 		[self.collectionView selectItemAtIndexPath:indexPathForSelectedDate animated:YES scrollPosition:UICollectionViewScrollPositionNone];
-	}
-	else {
+	} else {
+		if ([self doesDatesRangeHaveDisabledCellsFrom:self.rangeSelectionFirstIndexPath to:indexPath]) {
+			[self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
+			return;
+		}
+
+		_rangeSelectionFirstIndexPath = nil;
 		// Rearrange first an second date so that they are in ascending order
 		if ([date compare:self.selectedStartDateRange] == NSOrderedAscending) {
 			_selectedEndDateRange = self.selectedStartDateRange;
@@ -811,6 +875,12 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     if (!cell.isNotThisMonth) {
         NSUInteger cellDateWeekday = [self.calendar components:NSCalendarUnitWeekday fromDate:cellDate].weekday;
         cell.dayOff = (cellDateWeekday == 7) || (cellDateWeekday == 1);
+
+		if ([self.dataSource respondsToSelector:@selector(datePickerView:isDateEnabled:)]) {
+			cell.enabled = [self.dataSource datePickerView:self isDateEnabled:cellDate];
+		} else {
+			cell.enabled = YES;
+		}
 
         if ([self.dataSource respondsToSelector:@selector(datePickerView:shouldMarkDate:)]) {
             cell.marked = [self.dataSource datePickerView:self shouldMarkDate:cellDate];

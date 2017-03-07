@@ -72,19 +72,20 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 - (void)commonInitializer
 {
     self.backgroundColor = [self selfBackgroundColor];
-    
+	self.enabled = YES;
+
     [self addSubview:self.selectedDayImageView];
     [self addSubview:self.overlayImageView];
     [self addSubview:self.markImageView];
     [self addSubview:self.dateLabel];
-    
+
     [self updateSubviews];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
+
     self.dateLabel.frame = [self selectedImageViewFrame];
     self.selectedDayImageView.frame = [self selectedImageViewFrame];
     self.overlayImageView.frame = [self selectedImageViewFrame];
@@ -94,6 +95,12 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 - (void)drawRect:(CGRect)rect
 {
     [self updateSubviews];
+}
+
+- (void)prepareForReuse {
+	[super prepareForReuse];
+
+	self.enabled = YES;
 }
 
 #pragma mark - Custom Accessors
@@ -174,7 +181,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 {
     if (![_markImage isEqual:markImage]) {
         _markImage = markImage;
-        
+
         [self setNeedsDisplay];
     }
 }
@@ -184,7 +191,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
     if (![_markImageColor isEqual:markImageColor]) {
         _markImageColor = markImageColor;
         _markImage = nil;
-        
+
         [self setNeedsDisplay];
     }
 }
@@ -205,7 +212,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
         self.dateLabel.textColor = [self notThisMonthLabelTextColor];
         self.dateLabel.font = [self dayLabelFont];
     } else {
-        if (self.isOutOfRange) {
+        if (self.isOutOfRange || !self.isEnabled) {
             self.dateLabel.textColor = [self outOfRangeDayLabelTextColor];
 			self.dateLabel.backgroundColor = [UIColor colorWithRed:246/255.0 green:246/255.0 blue:246/255.0 alpha:1];
             self.dateLabel.font = [self outOfRangeDayLabelFont];
@@ -244,7 +251,7 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
 					}
 				}
             }
-            
+
             if (self.marked) {
                 self.markImageView.image = self.markImage;
             } else {
@@ -280,16 +287,16 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
     UIImage *ellipseImage = [[self class] fetchObjectForKey:key withCreator:^id{
         UIGraphicsBeginImageContextWithOptions(frame.size, NO, self.window.screen.scale);
         CGContextRef context = UIGraphicsGetCurrentContext();
-        
+
         CGRect rect = frame;
         rect.origin = CGPointZero;
-        
+
         CGContextSetFillColorWithColor(context, color.CGColor);
         CGContextFillEllipseInRect(context, rect);
-        
+
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        
+
         return image;
     }];
     return ellipseImage;
@@ -300,13 +307,13 @@ CGFloat roundOnBase(CGFloat x, CGFloat base) {
     UIImage *rectImage = [[self class] fetchObjectForKey:key withCreator:^id{
         UIGraphicsBeginImageContextWithOptions(frame.size, NO, self.window.screen.scale);
         CGContextRef context = UIGraphicsGetCurrentContext();
-        
+
         CGContextSetFillColorWithColor(context, color.CGColor);
         CGContextFillRect(context, frame);
-        
+
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        
+
         return image;
     }];
     return rectImage;
