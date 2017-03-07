@@ -698,7 +698,10 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 
 		for (NSUInteger i = from; i <= to; ++i) {
 			NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:fromIndexPath.section];
-			[cells addObject:(RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip]];
+			RSDFDatePickerDayCell *cell = (RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip];
+			if (cell) {
+				[cells addObject:(RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip]];
+			}
 		}
 	} else {
 		NSIndexPath *from;
@@ -715,7 +718,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 		for (NSInteger i = from.row; i < fromLimit; ++i) {
 			NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:from.section];
 			RSDFDatePickerDayCell *cell = (RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip];
-			if (!cell.isOutOfRange) {
+			if (cell && !cell.isOutOfRange) {
 				[cells addObject:(RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip]];
 			}
 		}
@@ -723,7 +726,7 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
 		for (NSInteger i = 0; i <= to.row; ++i) {
 			NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:to.section];
 			RSDFDatePickerDayCell *cell = (RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip];
-			if (!cell.isOutOfRange) {
+			if (cell && !cell.isOutOfRange) {
 				[cells addObject:(RSDFDatePickerDayCell *)[self.collectionView cellForItemAtIndexPath:ip]];
 			}
 		}
