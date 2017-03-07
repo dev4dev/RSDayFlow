@@ -52,7 +52,8 @@ typedef NS_ENUM (NSUInteger, RSDFSelectionMode) {
  @param startDate The first selectable date.
  @param endDate The last selectable date.
  */
-- (instancetype)initWithFrame:(CGRect)frame calendar:(nullable NSCalendar *)calendar dataSource:(id<RSDFDatePickerViewDataSource>)dataSource startDate:(nullable NSDate *)startDate endDate:(nullable NSDate *)endDate;
+- (instancetype)initWithFrame:(CGRect)frame calendar:(nullable NSCalendar *)calendar startDate:(nullable NSDate *)startDate endDate:(nullable NSDate *)endDate;
+- (instancetype)initWithFrame:(CGRect)frame calendar:(nullable NSCalendar *)calendar dataSource:(nullable id<RSDFDatePickerViewDataSource>)dataSource startDate:(nullable NSDate *)startDate endDate:(nullable NSDate *)endDate;
 
 ///-----------------------------
 /// @name Accessing the Delegate

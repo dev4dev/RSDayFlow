@@ -96,6 +96,11 @@ static NSString * const RSDFDatePickerViewDayCellIdentifier = @"RSDFDatePickerVi
     return self;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar startDate:(NSDate *)startDate endDate:(NSDate *)endDate
+{
+	return [self initWithFrame:frame calendar:calendar dataSource:nil startDate:startDate endDate:endDate];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame calendar:(NSCalendar *)calendar dataSource:(id<RSDFDatePickerViewDataSource>)dataSource startDate:(NSDate *)startDate endDate:(NSDate *)endDate
 {
     self = [super initWithFrame:frame];
